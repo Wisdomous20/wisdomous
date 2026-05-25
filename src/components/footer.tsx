@@ -1,7 +1,8 @@
 "use client";
 
-import { Github, Linkedin, Mail } from "lucide-react";
+import { motion } from "framer-motion";
 import Link from "next/link";
+import { Github, Linkedin, Mail } from "lucide-react";
 
 const FacebookIcon = () => (
   <svg
@@ -15,36 +16,119 @@ const FacebookIcon = () => (
 );
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="relative bg-[#0a0f1a] text-white px-6 sm:px-20 py-10 border-t border-white/10 z-10 overflow-hidden mt-8">
-      <div className="absolute top-[-150px] right-[-100px] w-[300px] h-[300px] bg-[#00a7e0]/20 rounded-full blur-2xl z-0"></div>
+    <footer className="relative bg-background border-t border-border/20 px-4 sm:px-6 lg:px-8 py-16 z-10 overflow-hidden">
+      {/* Background gradient elements */}
+      <motion.div
+        className="absolute top-0 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none"
+        animate={{
+          y: [0, -30, 0],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "easeInOut",
+        }}
+      />
 
-      <div className="relative z-10 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="text-sm text-center md:text-left">
-          <p className="font-semibold text-[#00a7e0]">© {new Date().getFullYear()} Wisdomous Software Inc.</p>
-          <p className="text-white/60">Building ideas with precision and passion.</p>
-        </div>
+      <div className="relative z-10 max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 border-b border-border/20 pb-12"
+        >
+          {/* Brand Section */}
+          <div className="space-y-4">
+            <h3 className="text-2xl font-bold text-foreground">Wisdomous</h3>
+            <p className="text-foreground/60">
+              Transforming ideas into intelligent digital solutions that drive growth and innovation.
+            </p>
+          </div>
 
-        <div className="flex gap-6">
-          <Link
-            href="https://www.facebook.com/share/18mjZ3ExFK/?mibextid=wwXIfr"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-[#00a7e0] transition-colors"
-            aria-label="Facebook"
-          >
-            <FacebookIcon />
-          </Link>
-          <div
-            className="text-sm hover:text-[#00a7e0] transition-colors"
-            aria-label="Phone"
-          >
-            <div className="flex flex-col text-sm hover:text-[#00a7e0] transition-colors" aria-label="Contact">
-              <span>wisdomoustech@gmail.com</span>
-              <span>+639-496-774-475</span>
+          {/* Quick Links */}
+          <div className="space-y-4">
+            <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider">
+              Quick Links
+            </h4>
+            <ul className="space-y-3">
+              {["Work", "About", "Services", "Contact"].map((item, i) => (
+                <motion.li
+                  key={i}
+                  whileHover={{ x: 5 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <Link
+                    href="#"
+                    className="text-foreground/60 hover:text-accent transition-colors duration-300"
+                  >
+                    {item}
+                  </Link>
+                </motion.li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div className="space-y-4">
+            <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider">
+              Get in Touch
+            </h4>
+            <div className="space-y-2">
+              <p className="text-foreground/60 flex items-center gap-2">
+                <Mail className="w-4 h-4 text-accent" />
+                wisdomoustech@gmail.com
+              </p>
+              <p className="text-foreground/60">+639-496-774-475</p>
             </div>
           </div>
-        </div>
+        </motion.div>
+
+        {/* Bottom Section */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          viewport={{ once: true }}
+          className="flex flex-col md:flex-row items-center justify-between gap-6"
+        >
+          <p className="text-sm text-foreground/50">
+            © {currentYear} Wisdomous Software Inc. All rights reserved.
+          </p>
+
+          {/* Social Links */}
+          <div className="flex gap-6 items-center">
+            <motion.a
+              href="https://www.facebook.com/share/18mjZ3ExFK/?mibextid=wwXIfr"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.1, color: "var(--color-accent)" }}
+              className="text-foreground/60 hover:text-accent transition-colors"
+              aria-label="Facebook"
+            >
+              <FacebookIcon />
+            </motion.a>
+            <motion.a
+              href="#"
+              whileHover={{ scale: 1.1 }}
+              className="text-foreground/60 hover:text-accent transition-colors"
+              aria-label="LinkedIn"
+            >
+              <Linkedin className="w-5 h-5" />
+            </motion.a>
+            <motion.a
+              href="#"
+              whileHover={{ scale: 1.1 }}
+              className="text-foreground/60 hover:text-accent transition-colors"
+              aria-label="GitHub"
+            >
+              <Github className="w-5 h-5" />
+            </motion.a>
+          </div>
+        </motion.div>
       </div>
     </footer>
   );
